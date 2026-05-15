@@ -61,7 +61,6 @@ export default function App() {
         {pack === 'Lucide' && <LucideIconsList query={query} color={color} />}
         {pack === 'Heroicon' && <HeroIconsList query={query} color={color} />}
         {pack === 'SI React' && <SIconsList query={query} color={color} />}
-        {/* <SIconsList query={query} color={color}/> */}
       </main>
 
 
