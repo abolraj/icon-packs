@@ -113,8 +113,13 @@
 
 @layer components {
  .btn {
-    @apply bg-primary text-primary-foreground hover:bg-secondary hover:text-secondary-foreground;
+    @apply cursor-pointer bg-primary text-primary-foreground hover:bg-secondary hover:text-secondary-foreground;
+ } 
+ 
+ .btn-ghost {
+    @apply cursor-pointer hover:bg-secondary hover:text-secondary-foreground;
  }
+
 }
 
 body, html {
