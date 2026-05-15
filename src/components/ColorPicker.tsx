@@ -20,7 +20,7 @@ export default function ColorPicker({
         <div className={'relative ' + className} {...props}>
             {/* trigger */}
             <button
-                className="size-10 border-r border-b border-foreground text-primary-foreground "
+                className="btn hover:!bg-secondary hover:!text-secondary-foreground size-10 border-r border-b border-foreground text-primary-foreground "
                 style={{ backgroundColor: color }}
                 onClick={() => setOpen(o => !o)}
             >
@@ -29,7 +29,7 @@ export default function ColorPicker({
 
             {/* overlay */}
             {open &&
-                <button className="fixed w-screen h-screen bg-background/50 left-0 top-0 z-40" onClick={() => setOpen(false)}>
+                <button className="fixed w-screen h-screen bg-gray-900/50 left-0 top-0 z-40" onClick={() => setOpen(false)}>
                 </button>
             }
 
