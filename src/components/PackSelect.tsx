@@ -29,17 +29,17 @@ export default function PackSelect({
 
             {/* overlay */}
             {open &&
-                <button className="fixed w-screen h-screen left-0 bottom-0 z-0 " onClick={() => setOpen(false)}>
+                <button className="fixed w-screen h-screen bg-gray-900/50 right-0 top-0 z-40" onClick={() => setOpen(false)}>
                 </button>
             }
 
             {/* list */}
             {packs && open &&
-                <ul className="z-10 absolute top-[100%] right-0 w-24 box-content">
+                <ul className="z-50 absolute top-[100%] right-0 w-40 box-content">
                     {packs.map((pack, i) => (
-                        <li className='btn border-foreground border-b border-l px-2' key={i}>
+                        <li className='btn w-full border-foreground border-b border-l px-2' key={i}>
                             <button 
-                            className="h-10"
+                            className="w-full text-left h-10"
                             onClick={() => {
                                 setOpen(false);
                                 onChangePack(pack);
