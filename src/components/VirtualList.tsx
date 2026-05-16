@@ -70,6 +70,9 @@ export default function VirtualList<T>({
         return totalRows * rowHeight;
     }, [totalRows, rowHeight]);
 
+    const getPrevSpacerHeight = () => {
+        return Math.max(startRow.current * (rowHeight), 0);
+    }
     const getNextSpacerHeight = () => {
         return Math.max(totalRowsHeight - (endRow.current) * rowHeight, 0);
     }
@@ -84,22 +87,23 @@ export default function VirtualList<T>({
         const newItemHeight = boxEl.current?.querySelector('.vl-item').getBoundingClientRect().height;
         const newItemWidth = boxEl.current?.querySelector('.vl-item').getBoundingClientRect().width;
         const newColsNo = colsNo || Math.floor(newBoxWidth / newItemWidth);
-        const newRowHeight = rowHeight || newItemHeight;
+        const newRowHeight = newItemHeight;
+
         if (colsNo !== newColsNo) {
             setColsNo(newColsNo);
-        }        
+        }
         if (rowHeight !== newRowHeight) {
             setRowHeight(newRowHeight);
-        }        
+        }
         if (boxWidth !== newBoxWidth) {
             setBoxWidth(newBoxWidth);
-        }        
+        }
         if (itemWidth !== newItemWidth) {
             setItemWidth(newItemWidth);
-        }        
+        }
         if (itemHeight !== newItemHeight) {
             setItemHeight(newItemHeight);
-        }        
+        }
         if (boxHeight !== newBoxHeight) {
             setBoxHeight(newBoxHeight);
         } else {
@@ -115,15 +119,16 @@ export default function VirtualList<T>({
         rowHeight,
     ]);
 
+
     return (
         <div
-            className={'h-20 w-full grid border-2 overflow-auto ' + className}
+            className={'h-20 w-full grid gap-0 overflow-auto ' + className}
             ref={boxEl}
             style={{ gridTemplateColumns: colsNumber ? `repeat(${colsNo}, minmax(0, 1fr))` : undefined }}
             onScroll={handleScroll}
         >
             {/* prev spacer */}
-            <div className='bg-transparent col-span-full' style={{ width: '100%', height: Math.max(startRow.current * (rowHeight - 25), 0) }}>
+            <div className='col-span-full' style={{ width: '100%', height: getPrevSpacerHeight() }}>
 
             </div>
             {slicedItems.map((item, i) => (
@@ -132,7 +137,7 @@ export default function VirtualList<T>({
                 </div>
             ))}
             {/* next spacer */}
-            <div className='bg-transparent col-span-full' style={{ width: '100%', height: getNextSpacerHeight() }}>
+            <div className='col-span-full' style={{ width: '100%', height: getNextSpacerHeight() }}>
 
             </div>
         </div>
