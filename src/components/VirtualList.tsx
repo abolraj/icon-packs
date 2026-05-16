@@ -122,7 +122,7 @@ export default function VirtualList<T>({
 
     return (
         <div
-            className={'h-20 w-full grid gap-0 overflow-auto ' + className}
+            className={'h-20 w-full grid gap-0 overflow-auto content-start ' + className}
             ref={boxEl}
             style={{ gridTemplateColumns: colsNumber ? `repeat(${colsNo}, minmax(0, 1fr))` : undefined }}
             onScroll={handleScroll}
