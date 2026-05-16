@@ -80,7 +80,7 @@ export default function HeroIconsList({
     <div className='size-full'>
             <VirtualList
                 items={filteredIds}
-                overRowsNo={0}
+                overRowsNo={2}
                 className="w-full h-full border-r grid grid-cols-4 max-sm:text-[10px] max-md:text-sm  md:grid-cols-6 lg:grid-cols-8"
             >
                 {(id) => {

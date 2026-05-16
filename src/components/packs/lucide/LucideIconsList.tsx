@@ -81,7 +81,7 @@ export default function LucideIconsList({
         <div className='size-full'>
             <VirtualList
                 items={filteredIds}
-                overRowsNo={0}
+                overRowsNo={2}
                 className="w-full h-full border-r grid grid-cols-4 max-sm:text-[10px] max-md:text-sm  md:grid-cols-6 lg:grid-cols-8"
             >
                 {(id) => {
@@ -91,7 +91,7 @@ export default function LucideIconsList({
                     return (
                         <div
                             key={id}
-                            className='size-full relative btn-ghost p-2 relative border-l border-b last:border-r aspect-square flex flex-col items-stretch'
+                            className='size-full relative btn-ghost p-2 border-l border-b last:border-r aspect-square flex flex-col items-stretch'
                             onClick={(e) => {
                                 handleCopy(e, id);
                             }}
