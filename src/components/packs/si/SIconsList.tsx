@@ -1,10 +1,12 @@
 /* eslint-disable react-hooks/refs */
-// packs/lucide/LucideIconsList.tsx
 import { useState, useEffect, useRef, createElement, useCallback } from 'react';
 import { loadSIcons, type IconComponent } from './loadIcons';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useCopyToClipboard } from '../../../shared/useCopyToClipboard';
 import VirtualList from '../../VirtualList';
+import Copy from '../../Copy';
+import Download from '../../Download';
+import { useDownloadSVG } from '../../../shared/useDownloadSVG';
 
 interface Props {
   query: string;
@@ -20,6 +22,7 @@ export default function SIconsList({
   const workerRef = useRef<Worker | null>(null);
   const componentMapRef = useRef<Map<string, IconComponent>>(new Map());
   const { copy } = useCopyToClipboard();
+  const { downloadSVG } = useDownloadSVG();
 
   const handleCopy = useCallback(
     async (e: React.MouseEvent, id: string) => {
@@ -29,7 +32,7 @@ export default function SIconsList({
 
       const copyEl = e.currentTarget?.querySelector('.copy-wrapper') as HTMLElement;
       // Generate SVG markup for the specific icon
-      const svg = getIconSvg(iconComponent).replaceAll('>', ">\n");
+      const svg = getIconSvg(iconComponent, {color: color}).replaceAll('>', ">\n");
       await copy(svg);
       console.log(copyEl, e.currentTarget?.querySelector('& .copy-wrapper'))
       copyEl.setAttribute('data-copied', 1);
@@ -78,42 +81,39 @@ export default function SIconsList({
 
   return (
     <div className='size-full'>
-            <VirtualList
-                items={filteredIds}
-                overRowsNo={2}
-                className="w-full h-full border-r grid grid-cols-4 max-sm:text-[10px] max-md:text-sm  md:grid-cols-6 lg:grid-cols-8"
+      <VirtualList
+        items={filteredIds}
+        overRowsNo={2}
+        className="w-full h-full border-r grid grid-cols-4 max-sm:text-[10px] max-md:text-sm  md:grid-cols-6 lg:grid-cols-8"
+      >
+        {(id) => {
+          const IconComponent = componentMapRef.current.get(id);
+          if (!IconComponent) return null;
+
+          return (
+            <div
+              key={id}
+              className='size-full relative btn-ghost p-2 relative border-l border-b last:border-r aspect-square flex flex-col items-stretch'
+              onClick={(e) => {
+                handleCopy(e, id);
+              }}
             >
-                {(id) => {
-                    const IconComponent = componentMapRef.current.get(id);
-                    if (!IconComponent) return null;
+              <div className='h-1 grow'>
+                <IconComponent className="h-full w-full" style={{ color: color ?? '' }} />
+              </div>
 
-                    return (
-                        <div
-                            key={id}
-                            className='size-full relative btn-ghost p-2 relative border-l border-b last:border-r aspect-square flex flex-col items-stretch'
-                            onClick={(e) => {
-                                handleCopy(e, id);
-                            }}
-                        >
-                            <div className='h-1 grow'>
-                                <IconComponent className="h-full w-full" style={{ color: color ?? '' }} />
-                            </div>
+              <Download onDownload={(e) => {
+                e.stopPropagation();
+                downloadSVG(getIconSvg(IconComponent, { color: color }), id + '.svg');
+              }} />
+              <Copy />
 
-                            <div className='copy-wrapper cursor-pointer absolute top-2 right-2 group'>
-                                <div className='group-data-[copied=1]:hidden absolute right-0 top-1 w-4 h-6 border'>
-                                </div>
-                                <div className='group-data-[copied=1]:hidden absolute bg-background right-1 top-0 w-4 h-6 border'>
-                                </div>
-                                <div className='hidden group-data-[copied=1]:block absolute right-1 -top-1 w-2 h-6 border-b border-r rotate-45 border-success'>
-                                </div>
-                            </div>
-
-                            {/* <span className='text-center'>{id}</span> */}
-                            <p className='h-10 left-0 bottom-0 w-full text-center wrap-break-word'>{id.replace(/([A-Z])/g, ' $1').trim()}</p>
-                        </div>
-                    );
-                }}
-            </VirtualList>
+              {/* <span className='text-center'>{id}</span> */}
+              <p className='h-10 left-0 bottom-0 w-full text-center wrap-break-word'>{id.replace(/([A-Z])/g, ' $1').trim()}</p>
+            </div>
+          );
+        }}
+      </VirtualList>
     </div>
   );
 }
