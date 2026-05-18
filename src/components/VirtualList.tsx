@@ -31,7 +31,7 @@ export default function VirtualList<T>({
     const startRow = useRef<number>(0);
     const endRow = useRef<number>(0);
 
-
+    // Calculate the important values for using in virtual list
     const calcRange = () => {
         const rowsPerBox = Math.ceil(boxHeight / rowHeight);
         const _startRow = Math.max(0, Math.floor(scrollTop.current / rowHeight) - overRowsNo);
@@ -42,16 +42,6 @@ export default function VirtualList<T>({
         startRow.current = _startRow;
         endRow.current = _endRow;
 
-        // console.group('calcRange');
-        // console.log('scrollTop:', scrollTop.current);
-        // console.log('boxHeight:', boxHeight);
-        // console.log('scrollTop/H:', scrollTop.current / rowHeight);
-        // console.log('rowsPerBox:', rowsPerBox);
-        // console.log('startRow:', startRow);
-        // console.log('endRow:', endRow);
-        // console.log('newStartIdx:', newStartIdx);
-        // console.log('newEndIdx:', newEndIdx);
-        // console.groupEnd();
         setStartIdx(newStartIdx);
         setEndIdx(newEndIdx);
     };
@@ -60,7 +50,6 @@ export default function VirtualList<T>({
         scrollTop.current = e.currentTarget.scrollTop;
         calcRange();
     }
-    // if (startIdx === null || endIdx === null) return;
 
     const totalRows = useMemo(() => {
         return Math.ceil(items.length / colsNo);
@@ -122,7 +111,7 @@ export default function VirtualList<T>({
 
     return (
         <div
-            className={'h-20 w-full grid gap-0 overflow-auto content-start ' + className}
+            className={'h-20 w-full grid gap-0 overflow-auto scrollbar-track-transparent scrollbar-thumb-foreground content-start ' + className}
             ref={boxEl}
             style={{ gridTemplateColumns: colsNumber ? `repeat(${colsNo}, minmax(0, 1fr))` : undefined }}
             onScroll={handleScroll}
