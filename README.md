@@ -1,73 +1,129 @@
-# React + TypeScript + Vite
+<h1 align="center">🔍 Icon Packs</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License">
+  <img src="https://img.shields.io/badge/version-1.0.0-green" alt="Version">
+</p>
 
-Currently, two official plugins are available:
+<p align="center">
+  Search across multiple icon packs instantly — find the right icon by name, filter by pack, and customize colors.
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+<p align="center">
+  <img src="./screenshots/light_icon_pack.png" alt="App Screenshot" width="600">
+  <img src="./screenshots/dark_icon_pack.png" alt="App Screenshot" width="600">
+</p>
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🚀 Quick Start
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/abolraj/icon-packs.git
+cd icon-packs
+pnpm install
+pnpm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📖 Usage
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Just type a keyword — the app instantly searches across all available icon packs and shows matching icons. Pick your pack, choose a color, and grab the icon you need.
+
+---
+
+## ✨ Features
+
+- 🔎 **Search** icons by name across all packs
+- 📦 **Pick your icon pack** — filter by your preferred pack
+- 🎨 **Custom color** — change icon color on the fly
+- 🌗 **Dark / Light theme** — toggle to match your mood
+- ⚡ **Blazing fast** — virtualized list and background search
+
+### Supported Icon Packs
+
+| Pack | Source |
+|------|--------|
+| Lucide | [lucide.dev](https://lucide.dev) |
+| Heroicons | [heroicons.com](https://heroicons.com) |
+| Simple React Icons | [Simple Icons](https://simpleicons.org) |
+
+---
+
+## ⚙️ How It Works
+
+### Tech Stack
+
+- **React v19** — UI library
+- **Vite v8** — build tool
+- **Tailwind CSS v4** — utility-first styling
+
+### Project Structure
+
 ```
+src/components/packs/
+├── lucide/
+│   ├── Worker.ts          # Handles search logic off the main thread
+│   ├── Loader.ts          # Loads icons with pack-specific logic
+│   └── LucideList.tsx     # Renders the virtualized icon list
+├── heroicons/
+│   ├── Worker.ts
+│   ├── Loader.ts
+│   └── HeroiconsList.tsx
+└── simple-react-icons/
+    ├── Worker.ts
+    ├── Loader.ts
+    └── SimpleReactIconsList.tsx
+```
+
+**Each pack folder contains three core files:**
+
+- **Worker.ts** — Offloads search computations to a Web Worker, keeping the UI thread free for smooth interactions.
+- **Loader.ts** — Each pack has its own loading mechanism, isolated in its own loader script.
+- **[Pack]List.tsx** — Ties the Worker and Loader together, rendering icons in a virtualized grid.
+
+### Shared Components
+
+- `ColorPicker` — choose any color for icons
+- `Search` — the main search input
+- `ThemePicker` — toggle dark/light mode
+- `IconPicker` — select active icon pack
+- `VirtualList` — renders only visible DOM nodes for performance
+- `Copy` — the component used in icon items for copying
+- `Download` — the component used in icon items for downloading
+
+### Shared Utilities
+
+Located in `src/shared/`:
+- `useCopyToClipboard` — copy icon code with one click
+- `useDownloadSVG` — download icons as SVG files
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! The best way to improve this project is by **adding new icon packs**.
+
+To add a new pack:
+1. Create a folder under `src/components/packs/[your-pack-name]/`
+2. Add the three required files: `Worker.ts`, `Loader.ts`, and `[Pack]List.tsx`
+3. Register your pack in the main `IconPicker` component
+4. Open a PR — I'd love to see what you add!
+
+For bugs, ideas, or questions, feel free to open an issue.
+
+---
+
+## 👤 About Me
+
+**Abolfazl Rajaee** — Fullstack Laravel Web Developer  
+🌐 [abolfazlrajaee.ir](https://abolfazlrajaee.ir)  
+🐙 [github.com/abolraj](https://github.com/abolraj)
+🐙 [hamgit.ir/abolraj](https://github.com/abolraj)
+
+---
+
+## 📄 License
+
+MIT — feel free to use, modify, and share. [Here](./LICENCE).
