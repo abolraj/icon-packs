@@ -19,7 +19,7 @@
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/abolraj/icon-packs.git
+git clone https://hamgit.ir/abolraj/icon-packs.git
 cd icon-packs
 pnpm install
 pnpm run dev
