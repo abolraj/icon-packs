@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/refs */
 import { useState, useEffect, useRef, createElement, useCallback } from 'react';
-import { loadHeroIcons, type IconComponent } from './loadIcons';
+import { loadHeroIcons, type IconComponent } from './Loader';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useCopyToClipboard } from '../../../shared/useCopyToClipboard';
 import VirtualList from '../../VirtualList';
@@ -49,7 +49,7 @@ export default function HeroIconsList({
         componentMapRef.current = componentMap;
 
         // 2. Create worker and initialise it
-        const worker = new Worker(new URL('./worker.ts', import.meta.url), {
+        const worker = new Worker(new URL('./Worker.ts', import.meta.url), {
             type: 'module',
         });
         workerRef.current = worker;
