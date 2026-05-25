@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import ColorPicker from "./components/ColorPicker";
 import PackSelect from "./components/PackSelect";
 import Search from "./components/Search";
 import { Heart } from "lucide-react";
 import { SiGithub } from "@icons-pack/react-simple-icons";
-import LucideIconsList from "./components/packs/lucide/LucideIconsList";
-import HeroIconsList from "./components/packs/heroicon/HeroIconsList";
-import SIconsList from "./components/packs/si/SIconsList";
 import ThemePicker from "./components/ThemePicker";
+import Loader from "./components/Loader";
+
+const LucideIconsList = lazy(() => import("./components/packs/lucide/LucideIconsList"));
+const HeroIconsList = lazy(() => import("./components/packs/heroicon/HeroIconsList"));
+const SIconsList = lazy(() => import("./components/packs/si/SIconsList"));
+const BootstrapIconsList = lazy(() => import("./components/packs/bootstrap/BootstrapIconsList"));
+const FontAwesomeIconsList = lazy(() => import("./components/packs/fontawesome/FontAwesomeIconsList"));
+const MaterialIconsList = lazy(() => import("./components/packs/material/MaterialIconsList"));
+const PhosphorIconsList = lazy(() => import("./components/packs/phosphor/PhosphorIconsList"));
+const AntDesignIconsList = lazy(() => import("./components/packs/antdesign/AntDesignIconsList"));
 
 const colors = [
   '#2196F3',
@@ -22,8 +29,13 @@ const colors = [
 
 const packs = [
   'Lucide',
+  'Phosphor',
   'Heroicon',
   'SI React',
+  'Bootstrap',
+  'FontAwesome',
+  'Material',
+  'Ant Design',
 ];
 
 export default function App() {
@@ -58,9 +70,16 @@ export default function App() {
 
 
       <main className="grow overflow-x-auto">
-        {pack === 'Lucide' && <LucideIconsList query={query} color={color} />}
-        {pack === 'Heroicon' && <HeroIconsList query={query} color={color} />}
-        {pack === 'SI React' && <SIconsList query={query} color={color} />}
+        <Suspense fallback={<Loader />}>
+          {pack === 'Lucide' && <LucideIconsList query={query} color={color} />}
+          {pack === 'Heroicon' && <HeroIconsList query={query} color={color} />}
+          {pack === 'SI React' && <SIconsList query={query} color={color} />}
+          {pack === 'Bootstrap' && <BootstrapIconsList query={query} color={color} />}
+          {pack === 'FontAwesome' && <FontAwesomeIconsList query={query} color={color} />}
+          {pack === 'Material' && <MaterialIconsList query={query} color={color} />}
+          {pack === 'Phosphor' && <PhosphorIconsList query={query} color={color} />}
+          {pack === 'Ant Design' && <AntDesignIconsList query={query} color={color} />}
+        </Suspense>
       </main>
 
 
