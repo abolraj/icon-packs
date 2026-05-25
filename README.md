@@ -46,8 +46,13 @@ Just type a keyword — the app instantly searches across all available icon pac
 | Pack | Source |
 |------|--------|
 | Lucide | [lucide.dev](https://lucide.dev) |
+| Phosphor | [phosphoricons.com](https://phosphoricons.com) |
 | Heroicons | [heroicons.com](https://heroicons.com) |
-| Simple React Icons | [Simple Icons](https://simpleicons.org) |
+| Simple Icons React | [simpleicons.org](https://simpleicons.org) |
+| Bootstrap Icons | [icons.getbootstrap.com](https://icons.getbootstrap.com) |
+| Font Awesome | [fontawesome.com](https://fontawesome.com) |
+| Material Icons | [fonts.google.com/icons](https://fonts.google.com/icons) |
+| Ant Design Icons | [ant.design/components/icon](https://ant.design/components/icon) |
 
 ---
 
@@ -92,6 +97,7 @@ src/components/packs/
 - `VirtualList` — renders only visible DOM nodes for performance
 - `Copy` — the component used in icon items for copying
 - `Download` — the component used in icon items for downloading
+- `Loader` — the component used for loading
 
 ### Shared Utilities
 
