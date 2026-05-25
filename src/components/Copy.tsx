@@ -1,13 +1,13 @@
 interface CopyProps {
     copied?: boolean | null;
-    item?: any;
-    onCopy?: ((item: any) => void) | null;
+    item?: unknown;
+    onCopy?: ((item: unknown) => void);
 }
 
 export default function Copy({
     copied = null,
     item = null,
-    onCopy = null,
+    onCopy,
 }: CopyProps) {
 
     return (

@@ -36,7 +36,7 @@ export default function SIconsList({
       const svg = getIconSvg(iconComponent, {color: color}).replaceAll('>', ">\n");
       await copy(svg);
       //console.log(copyEl, e.currentTarget?.querySelector('& .copy-wrapper'))
-      copyEl.setAttribute('data-copied', 1);
+      copyEl.setAttribute('data-copied', '1');
       setTimeout(() => {
         copyEl.removeAttribute('data-copied');
       }, 500);

@@ -1,11 +1,11 @@
 import type { MouseEventHandler } from "react";
 
 interface DownloadProps {
-    onDownload?: MouseEventHandler | null;
+    onDownload?: MouseEventHandler<HTMLDivElement>;
 }
 
 export default function Download({
-    onDownload = null,
+    onDownload,
 }: DownloadProps) {
 
     return (

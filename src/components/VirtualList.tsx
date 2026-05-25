@@ -6,7 +6,7 @@ interface VirtualListProps<T> {
     colsNumber?: number | null;
     overRowsNo: number;
     className?: string;
-    children?: (item: T) => React.ReactNode;
+    children?: ((item: T) => ReactNode) | ReactNode;
 };
 
 export default function VirtualList<T>({
@@ -18,14 +18,14 @@ export default function VirtualList<T>({
     children,
 }: VirtualListProps<T>) {
 
-    const [startIdx, setStartIdx] = useState<number | null>(0);
-    const [endIdx, setEndIdx] = useState<number | null>(10);
-    const [boxHeight, setBoxHeight] = useState<number | null>(null);
-    const [boxWidth, setBoxWidth] = useState<number | null>(null);
-    const [itemWidth, setItemWidth] = useState<number | null>(null);
-    const [itemHeight, setItemHeight] = useState<number | null>(null);
-    const [colsNo, setColsNo] = useState<number | null>(colsNumber);
-    const [rowHeight, setRowHeight] = useState<number | null>(rowHeightPX);
+    const [startIdx, setStartIdx] = useState<number>(0);
+    const [endIdx, setEndIdx] = useState<number>(10);
+    const [boxHeight, setBoxHeight] = useState<number>(0);
+    const [boxWidth, setBoxWidth] = useState<number>(0);
+    const [itemWidth, setItemWidth] = useState<number>(0);
+    const [itemHeight, setItemHeight] = useState<number>(0);
+    const [colsNo, setColsNo] = useState<number>(colsNumber ?? 0);
+    const [rowHeight, setRowHeight] = useState<number>(rowHeightPX ?? 0);
     const boxEl = useRef<HTMLDivElement>(null);
     const scrollTop = useRef<number>(0);
     const startRow = useRef<number>(0);
@@ -33,6 +33,8 @@ export default function VirtualList<T>({
 
     // Calculate the important values for using in virtual list
     const calcRange = () => {
+        if (boxHeight == null || rowHeight == null || colsNo == null) return;
+
         const rowsPerBox = Math.ceil(boxHeight / rowHeight);
         const _startRow = Math.max(0, Math.floor(scrollTop.current / rowHeight) - overRowsNo);
         const _endRow = Math.ceil(scrollTop.current / rowHeight) + rowsPerBox + overRowsNo;
@@ -71,32 +73,35 @@ export default function VirtualList<T>({
     }, [items, startIdx, endIdx]);
 
     useEffect(() => {
-        const newBoxHeight = boxEl.current?.getBoundingClientRect().height;
-        const newBoxWidth = boxEl.current?.getBoundingClientRect().width;
-        const newItemHeight = boxEl.current?.querySelector('.vl-item').getBoundingClientRect().height;
-        const newItemWidth = boxEl.current?.querySelector('.vl-item').getBoundingClientRect().width;
-        const newColsNo = colsNo || Math.floor(newBoxWidth / newItemWidth);
-        const newRowHeight = newItemHeight;
 
-        if (colsNo !== newColsNo) {
-            setColsNo(newColsNo);
-        }
-        if (rowHeight !== newRowHeight) {
-            setRowHeight(newRowHeight);
-        }
-        if (boxWidth !== newBoxWidth) {
-            setBoxWidth(newBoxWidth);
-        }
-        if (itemWidth !== newItemWidth) {
-            setItemWidth(newItemWidth);
-        }
-        if (itemHeight !== newItemHeight) {
-            setItemHeight(newItemHeight);
-        }
-        if (boxHeight !== newBoxHeight) {
-            setBoxHeight(newBoxHeight);
-        } else {
-            calcRange();
+        if (boxEl.current !== null) {
+            const newBoxHeight = boxEl.current.getBoundingClientRect().height;
+            const newBoxWidth = boxEl.current.getBoundingClientRect().width;
+            const newItemHeight = boxEl.current.querySelector('.vl-item')?.getBoundingClientRect().height ?? 0;
+            const newItemWidth = boxEl.current.querySelector('.vl-item')?.getBoundingClientRect().width ?? 0;
+            const newColsNo = colsNo || Math.floor(newBoxWidth / newItemWidth);
+            const newRowHeight = newItemHeight;
+
+            if (colsNo !== newColsNo) {
+                setColsNo(newColsNo);
+            }
+            if (rowHeight !== newRowHeight) {
+                setRowHeight(newRowHeight);
+            }
+            if (boxWidth !== newBoxWidth) {
+                setBoxWidth(newBoxWidth);
+            }
+            if (itemWidth !== newItemWidth) {
+                setItemWidth(newItemWidth);
+            }
+            if (itemHeight !== newItemHeight) {
+                setItemHeight(newItemHeight);
+            }
+            if (boxHeight !== newBoxHeight) {
+                setBoxHeight(newBoxHeight);
+            } else {
+                calcRange();
+            }
         }
 
     }, [
@@ -122,7 +127,7 @@ export default function VirtualList<T>({
             </div>
             {slicedItems.map((item, i) => (
                 <div className='vl-item' key={'' + item + i}>
-                    {(children(item))}
+                    {typeof children === 'function' ? children(item) : children}
                 </div>
             ))}
             {/* next spacer */}

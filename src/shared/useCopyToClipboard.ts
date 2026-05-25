@@ -1,6 +1,3 @@
-// shared/useCopyToClipboard.ts
-import { useState, useCallback } from 'react';
-
 export function useCopyToClipboard() {
     const copy = async (text: string) => {
         try {
