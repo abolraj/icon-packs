@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/refs */
-import { useState, useEffect, useRef, useCallback, createElement} from 'react';
+import { useState, useEffect, useRef, useCallback, createElement } from 'react';
 import { loadLucideIcons, type IconComponent } from './Loader';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { useCopyToClipboard } from '../../../shared/useCopyToClipboard';
@@ -7,6 +7,7 @@ import VirtualList from '../../VirtualList';
 import Copy from '../../Copy';
 import { useDownloadSVG } from '../../../shared/useDownloadSVG';
 import Download from '../../Download';
+import Loader from '../../Loader';
 
 interface Props {
     query: string;
@@ -35,7 +36,7 @@ export default function LucideIconsList({
             // Generate SVG markup for the specific icon
             const svg = getIconSvg(iconComponent, { color: color }).replaceAll('>', ">\n");
             await copy(svg);
-            console.log(copyEl, e.currentTarget?.querySelector('& .copy-wrapper'))
+            //console.log(copyEl, e.currentTarget?.querySelector('& .copy-wrapper'))
             copyEl.setAttribute('data-copied', 1);
             setTimeout(() => {
                 copyEl.removeAttribute('data-copied');
@@ -77,7 +78,7 @@ export default function LucideIconsList({
         workerRef.current.postMessage({ type: 'SEARCH', payload: { query } });
     }, [query, ready]);
 
-    if (!ready) return <div>Loading icons…</div>;
+    if (!ready) return <Loader />;
     if (filteredIds.length === 0) return <div>No icons found</div>;
 
     return (

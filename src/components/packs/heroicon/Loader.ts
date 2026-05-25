@@ -1,5 +1,3 @@
-// packs/lucide/loadIcons.ts
-
 import * as HeroIcons from "@heroicons/react/24/solid";
 
 
@@ -10,7 +8,7 @@ export function loadHeroIcons() {
     const componentMap = new Map<string, IconComponent>();
 
     for (const [name, component] of Object.entries(HeroIcons)) {
-        console.log(name, component)
+        //console.log(name, component)
         metaArray.push(name);
         componentMap.set(name, component as IconComponent);
     }

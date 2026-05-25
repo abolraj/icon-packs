@@ -10,7 +10,7 @@ export function loadSIcons() {
     const componentMap = new Map<string, IconComponent>();
     for (const [name, component] of Object.entries(SIcons)) {
         if (typeof component === 'string') continue;
-        // console.log(name, component, component instanceof IconComponent )
+        // //console.log(name, component, component instanceof IconComponent )
         metaArray.push(name);
         componentMap.set(name, component as IconComponent);
     }

@@ -1,4 +1,3 @@
-// packs/lucide/loadIcons.ts
 import { icons } from 'lucide-react';
 
 

@@ -1,5 +1,3 @@
-// packs/lucide/worker.ts
-
 let icons: Array<string> = [];
 
 self.onmessage = (e: MessageEvent) => {
