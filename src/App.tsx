@@ -90,7 +90,7 @@ export default function App() {
         <a href="https://abolfazlrajaee.ir" target="blank" className="text-primary hover:underline">
           Abolfazl
         </a>
-        <a className="grow text-right" href="https://hamgit.ir/abolraj/icon-packs">
+        <a className="grow text-right" href="https://github.com/abolraj/icon-packs">
           <SiGithub className="size-6 ml-auto" />
         </a>
       </footer>
